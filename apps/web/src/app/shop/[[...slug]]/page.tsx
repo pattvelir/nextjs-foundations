@@ -1,3 +1,21 @@
+import type { Metadata } from "next";
+
+export async function generateMetadata(props: {
+  params: Promise<{ slug?: string[] }>;
+}): Promise<Metadata> {
+  const params = await props.params;
+  const categories = params.slug || [];
+  const title = categories.join(" > ");
+  const imagePath = "/images/" + categories.join("/") + ".png";
+  return {
+    title: title,
+    description: "Description of " + title,
+    openGraph: {
+      images: imagePath,
+    },
+  };
+}
+
 export default async function ShopPage(props: {
   params: Promise<{ slug?: string[] }>;
 }) {
