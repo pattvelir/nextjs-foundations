@@ -18,12 +18,13 @@ export default async function PostPage({ params }: Props) {
   const { slug } = await params;
   const post = await fetchPostBySlug(slug);
 
-  if (!post) {
+  if (!post || slug === "test-not-found") {
     notFound();
   }
 
   return (
     <main className="flex flex-col gap-6">
+      {slug}
       <Link href="/" className="text-sm text-blue-600 hover:underline">
         ← Back to posts
       </Link>

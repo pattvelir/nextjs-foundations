@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
+import { env } from "@/lib/server/env";
 export function ClientEnvDisplay() {
   const [clicks, setClicks] = useState(0);
 
@@ -10,8 +10,9 @@ export function ClientEnvDisplay() {
   return (
     <div className="rounded border p-4">
       <h3 className="font-bold">Client Component</h3>
-      <p>Public: {process.env.NEXT_PUBLIC_APP_NAME}</p>
-      <p>Server-only: {process.env.INTERNAL_CONFIG || "undefined"}</p>
+      <p>Public: {env.NEXT_PUBLIC_APP_NAME}</p>
+      <p>Public: {env.NEXT_PUBLIC_NUMBER}</p>
+      <p>Server-only: {env.INTERNAL_CONFIG || "undefined"}</p>
       <button
         type="button"
         onClick={handleClick}
