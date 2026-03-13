@@ -1,4 +1,9 @@
 // Simulate slow data fetch
+
+import { ClientEnvDisplay } from "@/components/client-env-display";
+import { Counter } from "@/components/counter";
+import { ServerEnvDisplay } from "@/components/server-env-display";
+
 async function getAboutData() {
   await new Promise((resolve) => setTimeout(resolve, 2000));
   return { founded: 2026, team: "Distributed" };
