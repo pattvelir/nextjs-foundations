@@ -4,9 +4,10 @@ import { NextResponse } from "next/server";
 // Gets the article with the provided slug.
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
-  if (!params || !params.slug) {
+  const { slug } = await params;
+  if (!slug) {
     return NextResponse.json(
       { error: "Failed to retrieve article. No slug was provided." },
       { status: 500 },
@@ -14,11 +15,11 @@ export async function GET(
   }
 
   const sql = neon(`${process.env.STORAGE_DATABASE_URL}`);
-  const slug = params.slug.toLowerCase();
+  const slugLower = slug.toLowerCase();
 
   try {
     const result = await sql`
-    SELECT * FROM articles WHERE slug = ${slug}
+    SELECT * FROM articles WHERE slug = ${slugLower}
   `;
 
     return NextResponse.json(result[0], { status: 201 });
