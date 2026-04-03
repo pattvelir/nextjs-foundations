@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { ArticleSchema, Article } from "@repo/models/article";
+import { Taxonomy } from "./taxonomy";
 
 export function ArticleGrid({ articles }: { articles: Article[] | null }) {
   if (articles) {
@@ -21,7 +22,7 @@ export function ArticleGrid({ articles }: { articles: Article[] | null }) {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {articles.map((article, index) => (
-              <Link href="#" key={index} className="group">
+              <Link href={article.url} key={index} className="group">
                 <article className="bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg transition-shadow">
                   <div className="aspect-[16/10] overflow-hidden">
                     <img
@@ -31,9 +32,7 @@ export function ArticleGrid({ articles }: { articles: Article[] | null }) {
                     />
                   </div>
                   <div className="p-5">
-                    <span className="inline-block px-2 py-0.5 text-xs font-semibold uppercase tracking-wider bg-secondary text-secondary-foreground rounded mb-3">
-                      {article.category}
-                    </span>
+                    <Taxonomy article={article} />
                     <h3 className="font-serif text-lg font-bold leading-tight mb-2 text-foreground group-hover:text-primary transition-colors line-clamp-2">
                       {article.title}
                     </h3>
@@ -44,6 +43,8 @@ export function ArticleGrid({ articles }: { articles: Article[] | null }) {
                       <span className="font-medium">{article.author}</span>
                       <span>•</span>
                       <span>{article.datecreated.getDate()}</span>
+                      <span>•</span>
+                      <span>{article.views} views</span>
                     </div>
                   </div>
                 </article>
