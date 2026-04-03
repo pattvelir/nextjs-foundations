@@ -42,7 +42,13 @@ export function ArticleGrid({ articles }: { articles: Article[] | null }) {
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <span className="font-medium">{article.author}</span>
                       <span>•</span>
-                      <span>{article.datecreated.getDate()}</span>
+                      <span>
+                        {article.datecreated.toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </span>
                       <span>•</span>
                       <span>{article.views} views</span>
                     </div>
