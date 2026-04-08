@@ -1,6 +1,7 @@
 import { getArticleBySlug } from "@/app/lib/article";
 import { getRelatedArticles } from "@/app/lib/related-articles";
 import { ArticleGrid } from "@/components/article-grid";
+import { ArticleGridHeader } from "@/components/article-grid-header";
 import { Taxonomy } from "@/components/taxonomy";
 import { Calendar } from "lucide-react";
 import Link from "next/link";
@@ -102,6 +103,7 @@ export default async function ArticlePage({ params }: Props) {
                     dangerouslySetInnerHTML={{ __html: article.body }}
                   />
                 </div>
+                <ArticleGridHeader title="Related Articles" />
                 <ArticleGrid articles={relatedArticles} />
               </div>
             </div>

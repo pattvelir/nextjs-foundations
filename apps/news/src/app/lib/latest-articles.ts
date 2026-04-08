@@ -68,6 +68,6 @@ export async function getLatestArticles(
 
   // Make sure we have at least 1 article.
   if (!result[0]) return null;
-  console.log("result:", articles);
+  console.log("latest results:", articles);
   return z.array(ArticleSchema).parse(articles);
 }

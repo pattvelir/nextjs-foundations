@@ -1,9 +1,11 @@
 import Link from "next/link";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, Search, X } from "lucide-react";
 import { ArticleSchema, Article } from "@repo/models/article";
 import { Taxonomy } from "./taxonomy";
 import { getBreakingNews } from "@/app/lib/breaking-news";
 import { BreakingNews } from "./breaking-news";
+import { Button } from "./ui/button";
+import { HeaderMain } from "./header-main";
 
 const breakingNews = await getBreakingNews(3);
 console.log("breakingNews:", breakingNews);
@@ -31,19 +33,7 @@ export function Header() {
           </div>
         </div>
       </div>
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex-1 lg:flex-none text-center">
-            <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-primary">
-              Vercel Daily News
-            </h1>
-          </Link>
-
-          {/* Search button */}
-          <Search className="h-5 w-5" />
-        </div>
-      </div>
+      <HeaderMain />
     </header>
   );
 }

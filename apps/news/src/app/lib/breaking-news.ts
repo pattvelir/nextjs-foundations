@@ -18,6 +18,6 @@ export async function getBreakingNews(
 
   // Make sure we have at least 1 article.
   if (!result[0]) return null;
-  console.log("result:", result);
+  console.log("breaking results:", result);
   return z.array(ArticleSchema).parse(result);
 }

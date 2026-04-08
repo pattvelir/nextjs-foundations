@@ -6,6 +6,7 @@ import { ArticleSchema, Article } from "@repo/models/article";
 
 import { useState, useEffect } from "react";
 import { X, AlertCircle } from "lucide-react";
+import { BreakingNewsEmblem } from "./ui/breaking-news-emblem";
 
 export function BreakingNews({ articles }: { articles: Article[] | null }) {
   const [isVisible, setIsVisible] = useState(true);
@@ -26,10 +27,7 @@ export function BreakingNews({ articles }: { articles: Article[] | null }) {
     <div className="bg-accent text-foreground relative overflow-hidden">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6 lg:px-8">
         <div className="flex min-w-0 flex-1 items-center gap-3">
-          <span className="flex shrink-0 items-center gap-1.5 rounded bg-destructive px-2 py-0.5 text-xs font-bold uppercase tracking-wider text-primary-foreground">
-            <AlertCircle className="h-3.5 w-3.5" />
-            Breaking
-          </span>
+          <BreakingNewsEmblem />
           <div className="relative min-w-0 flex-1 overflow-hidden">
             <Link
               href={articles[currentIndex].url}

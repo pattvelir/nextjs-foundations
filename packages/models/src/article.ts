@@ -4,7 +4,7 @@ import { TaxonomySchema } from "./taxonomy";
 export const ArticleSchema = ArticleBaseSchema.extend({
   id: z.number(),
   slug: z.string(),
-  datecreated: z.date(), // or z.coerce.date() (see below)
+  datecreated: z.coerce.date(),
   image: z.string().optional(),
   category: z.string().optional(),
   views: z.number(),
