@@ -99,9 +99,8 @@ export default async function ArticlePage({ params }: Props) {
                             <p
                               key={index}
                               className="text-foreground leading-relaxed mb-6"
-                            >
-                              {block.text}
-                            </p>
+                              dangerouslySetInnerHTML={{ __html: block.text }}
+                            />
                           );
                         }
                         if (block.type === "paywall") {

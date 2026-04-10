@@ -1,9 +1,14 @@
 import { z } from "zod";
 
-//
+// For paragraph blocks, we'll transform links to proper markup
 const ParagraphBlock = z.object({
   type: z.literal("paragraph"),
-  text: z.string(),
+  text: z.string().transform((text) => {
+    return text.replace(
+      /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g,
+      '<a href="$2">$1</a>',
+    );
+  }),
 });
 
 const HeadingBlock = z.object({
