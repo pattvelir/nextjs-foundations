@@ -1,20 +1,25 @@
-import { neon } from "@neondatabase/serverless";
 import { Article, ArticleSchema } from "@repo/models/article";
-
-// Get the database connection.
-const sql = neon(process.env.STORAGE_DATABASE_URL!);
+import { apiFetch } from "./api";
+import { getSubscriptionStatusServer } from "./subscription-status-server";
+import { ContentBlock } from "@repo/models/content-block";
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
-  const [result] = await Promise.all([
-    sql`SELECT * FROM articles WHERE slug = ${slug}`,
-  ]);
+  const article = await apiFetch<Article>(`/articles/${slug}`);
+  const subscriptionStatus = await getSubscriptionStatusServer();
 
-  if (!result[0]) return null;
+  if (!article) return null;
 
-  // Increase view count for the article.
-  await sql`
-  INSERT INTO articleviews (articleid)
-  VALUES (${result[0].id})
-`;
-  return ArticleSchema.parse(result[0]);
+  // Check subscription status.
+  if (subscriptionStatus?.status !== "active") {
+    // If the user isn't subscribed, we'll only return the first content block of the body.
+    article.content = [article.content[0]];
+    const paywallBlock: ContentBlock = {
+      type: "paywall",
+      text: "Subscribe to continue reading this article.",
+      cta: "Subscribe Now",
+    };
+    article.content.push(paywallBlock);
+  }
+
+  return ArticleSchema.parse(article);
 }

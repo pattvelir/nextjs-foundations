@@ -22,9 +22,12 @@ export function TrendingArticles({ articles }: { articles: Article[] | null }) {
                   {index + 1}
                 </span>
                 <div className="flex-1">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-accent mb-2 block">
-                    <Taxonomy article={article} count={1} />
-                  </span>
+                  {article?.category && (
+                    <span className="text-xs font-semibold uppercase tracking-wider text-accent mb-2 block">
+                      <Taxonomy category={article.category!} />
+                    </span>
+                  )}
+
                   <h3 className="font-serif text-base lg:text-lg font-bold leading-tight text-foreground group-hover:text-primary transition-colors line-clamp-3">
                     {article.title}
                   </h3>

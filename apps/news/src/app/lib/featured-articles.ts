@@ -3,8 +3,9 @@ import { z } from "zod";
 import { apiFetch } from "./api";
 import { articleSearchToQueryString } from "./utils";
 import { SearchSchema } from "@repo/models/requests/search";
+// Get the database connection.
 
-export async function getLatestArticles(
+export async function getFeaturedArticles(
   count: number,
 ): Promise<Article[] | null> {
   // Only allow up to a maximum of 10 articles to display. We'll parse out any breaking
@@ -12,6 +13,7 @@ export async function getLatestArticles(
   const validatedCount = count > 0 && count <= 10 ? count : 10;
   const request = SearchSchema.parse({
     limit: validatedCount,
+    featured: "true",
   });
   const articles = await apiFetch<Article[]>(
     `/articles?${articleSearchToQueryString(request)}`,
@@ -19,6 +21,6 @@ export async function getLatestArticles(
 
   // Make sure we have at least 1 article.
   if (!articles[0]) return null;
-  console.log("latest articles results:", articles);
+  console.log("featured articles results:", articles);
   return z.array(ArticleSchema).parse(articles);
 }

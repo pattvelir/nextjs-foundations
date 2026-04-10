@@ -3,17 +3,20 @@ import { ArrowRight, Search, X } from "lucide-react";
 import { ArticleSchema, Article } from "@repo/models/article";
 import { Taxonomy } from "./taxonomy";
 import { getBreakingNews } from "@/app/lib/breaking-news";
-import { BreakingNews } from "./breaking-news";
+import { BreakingNewsBanner } from "./breaking-news-banner";
 import { Button } from "./ui/button";
 import { HeaderMain } from "./header-main";
+import { getCategories } from "@/app/lib/categories";
+import { SubscriptionToggle } from "./ui/subscription-toggle";
 
-const breakingNews = await getBreakingNews(3);
+const breakingNews = await getBreakingNews();
+const categories = await getCategories();
 console.log("breakingNews:", breakingNews);
 const currentDate = new Date();
 export function Header() {
   return (
     <header>
-      {breakingNews && <BreakingNews articles={breakingNews} />}
+      {breakingNews && <BreakingNewsBanner article={breakingNews} />}
       <div className="border-b border-border bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 py-2 flex items-center justify-between text-sm">
           <span>
@@ -24,16 +27,14 @@ export function Header() {
             })}
           </span>
           <div className="flex items-center gap-4">
-            <Link href="#" className="hover:underline">
-              Subscribe
-            </Link>
+            <SubscriptionToggle />
             <Link href="#" className="hover:underline">
               Sign In
             </Link>
           </div>
         </div>
       </div>
-      <HeaderMain />
+      <HeaderMain categories={categories} />
     </header>
   );
 }

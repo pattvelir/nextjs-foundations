@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { BreakingNews } from "@/components/breaking-news";
-import { getBreakingNews } from "./lib/breaking-news";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/header";

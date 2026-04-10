@@ -7,20 +7,16 @@ import { ArticleSchema, Article } from "@repo/models/article";
 import { useState, useEffect } from "react";
 import { X, AlertCircle } from "lucide-react";
 import { BreakingNewsEmblem } from "./ui/breaking-news-emblem";
+import { BreakingNews } from "@repo/models/breaking-news";
 
-export function BreakingNews({ articles }: { articles: Article[] | null }) {
+export function BreakingNewsBanner({
+  article,
+}: {
+  article: BreakingNews | null;
+}) {
   const [isVisible, setIsVisible] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % (articles ? articles.length : 0));
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  if (!articles) return null;
+  if (!article) return null;
   if (!isVisible) return null;
 
   return (
@@ -29,32 +25,14 @@ export function BreakingNews({ articles }: { articles: Article[] | null }) {
         <div className="flex min-w-0 flex-1 items-center gap-3">
           <BreakingNewsEmblem />
           <div className="relative min-w-0 flex-1 overflow-hidden">
-            <Link
-              href={articles[currentIndex].url}
-              key={currentIndex}
-              className="group"
-            >
+            <Link href={article?.url} className="group">
               <p className="truncate text-sm font-medium animate-in fade-in slide-in-from-bottom-2 duration-500">
-                {articles[currentIndex].title}
+                {article?.headline}
               </p>
             </Link>
           </div>
         </div>
         <div className="ml-4 flex shrink-0 items-center gap-3">
-          <div className="hidden items-center gap-1.5 sm:flex">
-            {articles.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`h-1.5 w-1.5 rounded-full transition-all ${
-                  index === currentIndex
-                    ? "w-4 bg-primary"
-                    : "bg-primary/40 hover:bg-primary/60"
-                }`}
-                aria-label={`Go to news ${index + 1}`}
-              />
-            ))}
-          </div>
           <button
             onClick={() => setIsVisible(false)}
             className="rounded-full p-1 transition-colors hover:bg-primary/10"
