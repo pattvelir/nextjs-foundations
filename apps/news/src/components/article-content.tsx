@@ -24,18 +24,16 @@ export function ArticleContent({
                   <h2
                     key={index}
                     className="font-serif text-2xl font-bold mt-10 mb-4 text-foreground"
-                  >
-                    {block.text}
-                  </h2>
+                    dangerouslySetInnerHTML={{ __html: block.text }}
+                  ></h2>
                 );
               } else {
                 return (
                   <h3
                     key={index}
                     className="font-serif text-xl font-bold mt-8 mb-3 text-foreground"
-                  >
-                    {block.text}
-                  </h3>
+                    dangerouslySetInnerHTML={{ __html: block.text }}
+                  ></h3>
                 );
               }
             }

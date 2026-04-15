@@ -1,35 +1,37 @@
 import { z } from "zod";
 
+// Rich text transforms links, bold text etc.
+const RichText = z.string().transform((text) => {
+  return text
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+});
+
 // For paragraph blocks, we'll transform links to proper markup
 const ParagraphBlock = z.object({
   type: z.literal("paragraph"),
-  text: z.string().transform((text) => {
-    return text.replace(
-      /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g,
-      '<a href="$2">$1</a>',
-    );
-  }),
+  text: RichText,
 });
 
 const HeadingBlock = z.object({
   type: z.literal("heading"),
   level: z.union([z.literal(2), z.literal(3)]),
-  text: z.string(),
+  text: RichText,
 });
 
 const BlockQuoteBlock = z.object({
   type: z.literal("blockquote"),
-  text: z.string(),
+  text: RichText,
 });
 
 const UnorderedListBlock = z.object({
   type: z.literal("unordered-list"),
-  items: z.array(z.string()),
+  items: z.array(RichText),
 });
 
 const OrderedListBlock = z.object({
   type: z.literal("ordered-list"),
-  items: z.array(z.string()),
+  items: z.array(RichText),
 });
 
 const ImageBlock = z.object({
