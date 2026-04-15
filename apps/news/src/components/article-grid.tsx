@@ -19,13 +19,10 @@ export function ArticleGrid({
     <section className="py-8 md:py-12 bg-muted/50">
       <div className="container mx-auto px-4">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {/* 🔄 Loading state */}
           {loading &&
-            Array.from({ length: 6 }).map((_, i) => (
-              <ArticleCardSkeleton key={i} />
+            Array.from({ length: 6 }).map((article, index) => (
+              <ArticleCardSkeleton key={index} />
             ))}
-
-          {/* ✅ Actual data */}
           {!loading &&
             articles?.map((article, index) => (
               <Link href={article.url} key={index} className="group">

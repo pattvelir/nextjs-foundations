@@ -5,17 +5,23 @@ import { Taxonomy } from "./taxonomy";
 import { DateString } from "./ui/date-string";
 import { BreakingNewsEmblem } from "./ui/breaking-news-emblem";
 import { ArticleCardSkeleton } from "./skeletons/article-grid-skeleton";
+import Image from "next/image";
 export function Hero({ article }: { article: Article | null }) {
   if (article) {
     return (
       <section className="relative">
-        <Link href="/article" className="group block">
+        <Link href={article.url} className="group block">
           <article className="relative h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden">
-            <img
-              src={article.image}
-              alt={article.title}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            />
+            {article.image && (
+              <Image
+                width={1674}
+                height={872}
+                src={article.image}
+                alt={article.title}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+            )}
+
             <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/50 to-transparent" />
             <div className="absolute inset-0 flex items-end">
               <div className="container mx-auto px-4 pb-12 md:pb-16 lg:pb-20">

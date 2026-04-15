@@ -1,10 +1,12 @@
 import { getArticleBySlug } from "@/app/lib/article";
 import { getRelatedArticles } from "@/app/lib/related-articles";
 import { getSubscriptionStatusServer } from "@/app/lib/subscription-status-server";
+import { ArticleContent } from "@/components/article-content";
 import { ArticleGrid } from "@/components/article-grid";
 import { ArticleGridHeader } from "@/components/article-grid-header";
 import { Taxonomy } from "@/components/taxonomy";
 import { Calendar } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { JSX } from "react/jsx-dev-runtime";
@@ -67,60 +69,20 @@ export default async function ArticlePage({ params }: Props) {
             <div className="flex gap-8">
               <div className="flex-1 min-w-0">
                 <div className="article-content">
-                  <figure className="mb-10">
-                    <div className="aspect-video w-full overflow-hidden rounded-lg bg-secondary">
-                      <img
-                        src={article.image}
-                        alt=""
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </figure>
-
-                  {/* Article Body */}
-
-                  {/* <div
-                    className="prose prose-lg max-w-none
-          prose-headings:font-serif prose-headings:font-bold prose-headings:text-foreground
-          prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
-          prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-          prose-p:text-foreground prose-p:leading-relaxed prose-p:mb-6
-          prose-a:text-primary prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-primary/80
-          prose-strong:text-foreground prose-strong:font-semibold
-          prose-blockquote:border-l-4 prose-blockquote:border-accent prose-blockquote:pl-6 prose-blockquote:italic prose-blockquote:text-muted-foreground
-          prose-ul:my-6 prose-li:text-foreground prose-li:mb-2
-          prose-img:rounded-lg
-        "/> */}
-                  {article.content?.length && (
-                    <>
-                      {article.content.map((block, index) => {
-                        if (block.type === "paragraph") {
-                          return (
-                            <p
-                              key={index}
-                              className="text-foreground leading-relaxed mb-6"
-                              dangerouslySetInnerHTML={{ __html: block.text }}
-                            />
-                          );
-                        }
-                        if (block.type === "paywall") {
-                          return (
-                            <div
-                              key={index}
-                              className="bg-primary/10 border border-primary/20 rounded-lg p-6"
-                            >
-                              <p className="text-foreground mb-4">
-                                {block.text}
-                              </p>
-                              <button className="bg-primary text-primary-foreground hover:bg-primary/80 px-4 py-2 rounded-md transition-colors">
-                                {block.cta}
-                              </button>
-                            </div>
-                          );
-                        }
-                      })}
-                    </>
+                  {article.image && (
+                    <figure className="mb-10">
+                      <div className="aspect-video w-full overflow-hidden rounded-lg bg-secondary">
+                        <Image
+                          width={1674}
+                          height={972}
+                          src={article.image}
+                          alt=""
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </figure>
                   )}
+                  <ArticleContent content={article.content} />
                 </div>
                 <ArticleGridHeader title="Related Articles" />
                 <ArticleGrid articles={relatedArticles} />

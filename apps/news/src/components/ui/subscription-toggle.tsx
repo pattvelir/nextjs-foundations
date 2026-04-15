@@ -29,6 +29,8 @@ export function SubscriptionToggle() {
     if (subscriptionStatus != null) {
       if (subscriptionStatus.status === "active") {
         setSubscriptionStatus(await unsubscribe(subscriptionStatus));
+      } else if (subscriptionStatus.status === "inactive") {
+        setSubscriptionStatus(await subscribe());
       }
     } else {
       setSubscriptionStatus(await subscribe());

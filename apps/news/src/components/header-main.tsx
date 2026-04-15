@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { Menu, Search, X } from "lucide-react";
-import { ArticleSchema, Article } from "@repo/models/article";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { getCategories } from "@/app/lib/categories";
 import { HeaderNavigation } from "./header-navigation";
 import { Category } from "@repo/models/category";
 
@@ -37,8 +35,6 @@ export function HeaderMain({ categories }: { categories: Category[] | null }) {
               Vercel Daily News
             </h1>
           </Link>
-
-          {/* Search button */}
           <Button
             variant="ghost"
             size="icon"
