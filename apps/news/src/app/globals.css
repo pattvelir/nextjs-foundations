@@ -122,3 +122,10 @@
     @apply bg-background text-foreground;
   }
 }
+ol, ul {
+    list-style: initial !important;
+  }
+
+  .article-content a {
+    @apply text-primary underline;
+  }
