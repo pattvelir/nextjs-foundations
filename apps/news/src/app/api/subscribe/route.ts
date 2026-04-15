@@ -45,7 +45,7 @@ export async function POST() {
 
   // If the subscription creation failed, we'll return null.
   if (!subscriptionStatus) {
-    return null;
+    return Response.json(null);
   }
 
   // Automatically activate the subscription.
@@ -57,7 +57,7 @@ export async function POST() {
 
   // If the activation failed, we'll return null.
   if (!subscriptionStatus) {
-    return null;
+    return Response.json(null);
   }
 
   // Finally, if everything succeeded, we'll set the cookie and return the status.
