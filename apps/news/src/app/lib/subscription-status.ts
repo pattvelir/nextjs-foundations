@@ -9,5 +9,10 @@ export async function getSubscriptionStatus(): Promise<SubscriptionStatus | null
   });
 
   const subscriptionStatus = await response.json();
+
+  if (!subscriptionStatus) {
+    return null;
+  }
+
   return SubscriptionStatusSchema.parse(subscriptionStatus);
 }

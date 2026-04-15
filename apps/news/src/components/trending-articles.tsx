@@ -14,7 +14,7 @@ export function TrendingArticles({ articles }: { articles: Article[] | null }) {
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {articles?.map((article, index) => (
             <Link href="#" key={index} className="group">
               <article className="flex lg:flex-col gap-4 py-4 border-t border-border hover:border-accent transition-colors">

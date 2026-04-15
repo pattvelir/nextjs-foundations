@@ -28,9 +28,6 @@ export function Header() {
           </span>
           <div className="flex items-center gap-4">
             <SubscriptionToggle />
-            <Link href="#" className="hover:underline">
-              Sign In
-            </Link>
           </div>
         </div>
       </div>
