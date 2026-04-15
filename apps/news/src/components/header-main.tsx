@@ -58,7 +58,7 @@ export function HeaderMain({ categories }: { categories: Category[] | null }) {
             onSubmit={(e) => {
               e.preventDefault();
               if (searchQuery.trim()) {
-                window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`;
+                window.location.href = `/search?search=${encodeURIComponent(searchQuery)}`;
               }
             }}
           >
