@@ -14,7 +14,6 @@ export async function apiFetch<T>(
   const response = await fetch(`${BASE_URL}${endpointPath}`, {
     method,
     headers: headers,
-    cache: "no-store", // or "force-cache" depending on use case
   });
 
   // If the endpoint returns a 404, we'll return null instead of throwing an error.

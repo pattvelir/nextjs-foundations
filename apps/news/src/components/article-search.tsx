@@ -36,6 +36,7 @@ export function ArticleSearch({
   const [isFocused, setIsFocused] = useState(false);
   const [results, setResults] = useState<Article[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [inputValue, setInputValue] = useState(search);
 
   // Handles changes to the keyword search input and category dropdown.
   const handleSearchChange = (searchValue: string, categoryValue: string) => {
@@ -58,24 +59,37 @@ export function ArticleSearch({
   };
 
   useEffect(() => {
-    const timeout = setTimeout(async () => {
-      const request = SearchSchema.parse({
-        limit: 10,
-        search: search || undefined,
-        category: category || undefined,
-      });
+    const request = SearchSchema.parse({
+      limit: 10,
+      search: search || undefined,
+      category: category || undefined,
+    });
 
-      const queryString = articleSearchToQueryString(request);
+    const queryString = articleSearchToQueryString(request);
 
+    const fetchData = async () => {
+      setIsLoading(true);
       const res = await fetch(`/api/search?${queryString}`);
       const data = await res.json();
 
       setResults(data);
       setIsLoading(false);
+    };
+
+    fetchData();
+  }, [searchParams]);
+
+  useEffect(() => {
+    setInputValue(search);
+  }, [search]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      handleSearchChange(inputValue, category);
     }, 300);
 
     return () => clearTimeout(timeout);
-  }, [searchParams]);
+  }, [inputValue, category]);
 
   const displayedResults = search || category ? results : [];
 
@@ -97,8 +111,8 @@ export function ArticleSearch({
                 ref={inputRef}
                 type="text"
                 placeholder="Search..."
-                value={search}
-                onChange={(e) => handleSearchChange(e.target.value, category)}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
                 onFocus={() => setIsFocused(true)}
                 className="border-0 bg-transparent pl-12 pr-24 py-6 text-lg focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
               />
@@ -145,6 +159,8 @@ export function ArticleSearch({
           title={title}
           loading={isLoading}
         />
+      ) : isLoading ? (
+        <ArticleGrid articles={[]} title={title} loading={true} />
       ) : (
         <p className="text-center text-muted-foreground mt-8">
           {search || category
