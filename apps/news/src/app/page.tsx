@@ -5,6 +5,17 @@ import { TrendingArticles } from "@/components/trending-articles";
 import { getTrendingArticles } from "./lib/trending-articles";
 import { getFeaturedArticles } from "./lib/featured-articles";
 import { Hero } from "@/components/hero";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Vercel Daily News",
+  description: "24/7 news about Vercel and the web development industry.",
+  openGraph: {
+    title: "Vercel Daily News",
+    description: "24/7 news about Vercel and the web development industry.",
+    type: "website",
+  },
+};
 
 export default async function HomePage() {
   const featuredArticles = await getFeaturedArticles(6);
@@ -12,7 +23,6 @@ export default async function HomePage() {
   const articles = await getLatestArticles(6);
   const featuredArticlesWithoutHero =
     featuredArticles?.slice(1, featuredArticles.length) || [];
-  //console.log(articles);
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">
