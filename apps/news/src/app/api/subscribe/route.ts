@@ -69,8 +69,6 @@ export async function POST() {
     maxAge: 60 * 60 * 24 * 30,
   });
 
-  console.log("subscription status result:", subscriptionStatus);
-
   return Response.json(subscriptionStatus);
 }
 
@@ -92,6 +90,5 @@ export async function GET() {
     return Response.json(null);
   }
 
-  console.log("subscription status result:", subscriptionStatus);
   return Response.json(subscriptionStatus);
 }

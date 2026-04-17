@@ -6,7 +6,6 @@ export async function apiFetch<T>(
   method: string = "GET",
   headers: Record<string, string> = {},
 ): Promise<T> {
-  console.log(TOKEN);
   if (!endpointPath.startsWith("/")) {
     endpointPath = `/${endpointPath}`;
   }

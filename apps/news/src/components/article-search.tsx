@@ -35,7 +35,7 @@ export function ArticleSearch({
 
   const [isFocused, setIsFocused] = useState(false);
   const [results, setResults] = useState<Article[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [inputValue, setInputValue] = useState(search);
 
   // Handles changes to the keyword search input and category dropdown.

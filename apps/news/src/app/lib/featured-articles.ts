@@ -26,6 +26,6 @@ export async function getFeaturedArticles(
   if (!articles[0]) {
     return null;
   }
-  console.log("featured articles results:", articles);
+
   return z.array(ArticleSchema).parse(articles);
 }

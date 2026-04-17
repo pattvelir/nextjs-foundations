@@ -12,6 +12,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ArticleContentSkeleton } from "@/components/skeletons/article-content-skeleton";
 import Article from "@/components/article";
+import { ArticleSkeleton } from "@/components/skeletons/article-skeleton";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -20,7 +21,6 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const article = await getArticleBySlug(slug);
-  console.log("metadata: article: ", article);
   if (!article) {
     return {
       title: "Article Not Found",
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Props) {
 
 export default function ArticlePage({ params }: Props) {
   return (
-    <Suspense fallback={<ArticleContentSkeleton />}>
+    <Suspense fallback={<ArticleSkeleton />}>
       <Article params={params} />
     </Suspense>
   );

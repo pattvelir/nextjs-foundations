@@ -1,6 +1,6 @@
 export function ArticleContentSkeleton() {
   return (
-    <div className="animate-pulse">
+    <div className="bg-card rounded-lg overflow-hidden border border-border animate-pulse">
       <div className="mb-10">
         <div className="aspect-video w-full rounded-lg" />
         <div className="h-4 w-64 mt-3" />

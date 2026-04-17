@@ -4,7 +4,7 @@ import { ArticleSchema, Article } from "@repo/models/article";
 import { Taxonomy } from "./taxonomy";
 import { DateString } from "./ui/date-string";
 import { BreakingNewsEmblem } from "./ui/breaking-news-emblem";
-import { ArticleCardSkeleton } from "./skeletons/article-grid-skeleton";
+import { ArticleCardSkeleton } from "./skeletons/article-card-skeleton";
 import Image from "next/image";
 export function Hero({ article }: { article: Article | null }) {
   if (article) {

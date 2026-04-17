@@ -28,11 +28,7 @@ export default async function ArticleInner({ slug }: { slug: string }) {
           <div className="max-w-4xl mx-auto">
             <header className="border-b border-border pb-8 mb-8">
               <div className="mb-6">
-                {article?.category && (
-                  <Link href="#">
-                    <Taxonomy category={article.category!} />
-                  </Link>
-                )}
+                {article?.category && <Taxonomy category={article.category!} />}
               </div>
               <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-foreground mb-6 text-balance">
                 {article.title}

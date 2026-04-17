@@ -1,10 +1,3 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { ArticleSchema, Article } from "@repo/models/article";
-import { Taxonomy } from "./taxonomy";
-import { DateString } from "./ui/date-string";
-import { BreakingNewsEmblem } from "./ui/breaking-news-emblem";
-import { ArticleCardSkeleton } from "./skeletons/article-grid-skeleton";
 import { ContentBlock } from "@repo/models/content-block";
 import Image from "next/image";
 import { getSubscriptionStatusServer } from "@/app/lib/subscription-status-server";
