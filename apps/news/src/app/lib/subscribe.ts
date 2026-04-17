@@ -1,3 +1,5 @@
+// Note: Remove this file.
+
 import {
   SubscriptionStatus,
   SubscriptionStatusSchema,

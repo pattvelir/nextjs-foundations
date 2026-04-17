@@ -5,11 +5,13 @@ import { cn } from "@/app/lib/utils";
 import { useEffect, useState } from "react";
 import { Button } from "./button";
 import { SubscriptionStatus } from "@repo/models/subscription-status";
-import { subscribe } from "@/app/lib/subscribe";
-import { unsubscribe } from "@/app/lib/unsubscribe";
-import { getSubscriptionStatus } from "@/app/lib/subscription-status";
+import { subscribe } from "@/app/actions";
+import { unsubscribe } from "@/app/actions";
+import { getSubscriptionStatus } from "@/app/actions";
+import { useRouter } from "next/navigation";
 
-export function SubscriptionToggle() {
+export function SubscriptionToggle({ cta = "Subscribe" }: { cta: string }) {
+  const router = useRouter();
   const [subscriptionStatus, setSubscriptionStatus] =
     useState<SubscriptionStatus | null>(null);
 
@@ -35,12 +37,14 @@ export function SubscriptionToggle() {
     } else {
       setSubscriptionStatus(await subscribe());
     }
+
+    router.refresh();
   };
 
   const subscriptionText = isLoading
     ? "Loading..."
     : subscriptionStatus == null
-      ? "Subscribe"
+      ? cta
       : subscriptionStatus.status === "active"
         ? "Unsubscribe"
         : "Resubscribe";

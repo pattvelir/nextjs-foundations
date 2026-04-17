@@ -5,16 +5,14 @@ export function proxy(request: NextRequest) {
   // we know that the user is not subscribed.
   const subscribedToken = request.cookies.get("subscriptionToken");
   console.log("proxy middleware start");
-  if (!subscribedToken) {
-    console.log("no subscription token found, redirecting to preview mode");
-    const url = request.nextUrl.clone();
-    url.searchParams.set("preview", "true");
-    console.log("new URL:", url.toString());
-    return NextResponse.rewrite(url);
-  }
 
   // Continue to the route with added security headers
   const response = NextResponse.next();
+
+  // If we have a subscription token cookie, we'll add a header to the request.
+  if (subscribedToken) {
+    response.headers.set("x-has-subscription-token", "true");
+  }
 
   // Security headers
   response.headers.set("X-Frame-Options", "DENY");

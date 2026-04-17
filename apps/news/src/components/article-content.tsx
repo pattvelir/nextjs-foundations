@@ -1,13 +1,14 @@
 import { ContentBlock } from "@repo/models/content-block";
 import Image from "next/image";
-import { getSubscriptionStatusServer } from "@/app/lib/subscription-status-server";
+import { getSubscriptionStatus } from "@/app/actions";
+import { SubscriptionToggle } from "./ui/subscription-toggle";
 
 export async function ArticleContent({
   content,
 }: {
   content: ContentBlock[] | null;
 }) {
-  const subscriptionStatus = await getSubscriptionStatusServer();
+  const subscriptionStatus = await getSubscriptionStatus();
   // Check subscription status.
   if (subscriptionStatus?.status !== "active") {
     const paywallBlock: ContentBlock = {
@@ -112,9 +113,7 @@ export async function ArticleContent({
                   className="bg-primary/10 border border-primary/20 rounded-lg p-6 mb-8"
                 >
                   <p className="text-foreground mb-4">{block.text}</p>
-                  <button className="bg-primary text-primary-foreground hover:bg-primary/80 px-4 py-2 rounded-md transition-colors">
-                    {block.cta}
-                  </button>
+                  <SubscriptionToggle cta={block.cta} />
                 </div>
               );
             }
