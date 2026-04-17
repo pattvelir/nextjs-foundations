@@ -7,12 +7,32 @@ import { BreakingNewsEmblem } from "./ui/breaking-news-emblem";
 import { ArticleCardSkeleton } from "./skeletons/article-grid-skeleton";
 import { ContentBlock } from "@repo/models/content-block";
 import Image from "next/image";
+import { getSubscriptionStatusServer } from "@/app/lib/subscription-status-server";
 
-export function ArticleContent({
+export async function ArticleContent({
   content,
 }: {
   content: ContentBlock[] | null;
 }) {
+  const subscriptionStatus = await getSubscriptionStatusServer();
+  // Check subscription status.
+  if (subscriptionStatus?.status !== "active") {
+    const paywallBlock: ContentBlock = {
+      type: "paywall",
+      text: "Subscribe to continue reading this article.",
+      cta: "Subscribe Now",
+    };
+
+    if (content && content.length > 0) {
+      // If the user isn't subscribed, we'll only return the first content block of the body.
+      content = [content[0]];
+      content.push(paywallBlock);
+    } else {
+      // If for some reason we don't have any article data, simply return the paywall block.
+      content = [paywallBlock];
+    }
+  }
+
   return (
     <>
       {content?.length && (
@@ -96,7 +116,7 @@ export function ArticleContent({
               return (
                 <div
                   key={index}
-                  className="bg-primary/10 border border-primary/20 rounded-lg p-6"
+                  className="bg-primary/10 border border-primary/20 rounded-lg p-6 mb-8"
                 >
                   <p className="text-foreground mb-4">{block.text}</p>
                   <button className="bg-primary text-primary-foreground hover:bg-primary/80 px-4 py-2 rounded-md transition-colors">

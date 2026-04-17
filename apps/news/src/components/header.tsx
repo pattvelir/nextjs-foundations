@@ -8,15 +8,16 @@ import { Button } from "./ui/button";
 import { HeaderMain } from "./header-main";
 import { getCategories } from "@/app/lib/categories";
 import { SubscriptionToggle } from "./ui/subscription-toggle";
+import { Suspense } from "react";
 
-const breakingNews = await getBreakingNews();
-const categories = await getCategories();
-console.log("breakingNews:", breakingNews);
 const currentDate = new Date();
-export function Header() {
+export async function Header() {
+  const categories = await getCategories();
   return (
     <header>
-      {breakingNews && <BreakingNewsBanner article={breakingNews} />}
+      <Suspense fallback={<div>Loading...</div>}>
+        <BreakingNewsBanner />
+      </Suspense>
       <div className="border-b border-border bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 py-2 flex items-center justify-between text-sm">
           <span>
@@ -27,7 +28,9 @@ export function Header() {
             })}
           </span>
           <div className="flex items-center gap-4">
-            <SubscriptionToggle />
+            <Suspense fallback={<span>Loading...</span>}>
+              <SubscriptionToggle />
+            </Suspense>
           </div>
         </div>
       </div>

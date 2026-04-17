@@ -1,47 +1,8 @@
-"use client";
+import { BreakingNewsBannerInner } from "./breaking-new-banner-inner";
+import { getBreakingNews } from "@/app/lib/breaking-news";
 
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { ArticleSchema, Article } from "@repo/models/article";
+export async function BreakingNewsBanner() {
+  const breakingNews = await getBreakingNews();
 
-import { useState, useEffect } from "react";
-import { X, AlertCircle } from "lucide-react";
-import { BreakingNewsEmblem } from "./ui/breaking-news-emblem";
-import { BreakingNews } from "@repo/models/breaking-news";
-
-export function BreakingNewsBanner({
-  article,
-}: {
-  article: BreakingNews | null;
-}) {
-  const [isVisible, setIsVisible] = useState(true);
-
-  if (!article) return null;
-  if (!isVisible) return null;
-
-  return (
-    <div className="bg-accent text-foreground relative overflow-hidden">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6 lg:px-8">
-        <div className="flex min-w-0 flex-1 items-center gap-3">
-          <BreakingNewsEmblem />
-          <div className="relative min-w-0 flex-1 overflow-hidden">
-            <Link href={article?.url} className="group">
-              <p className="truncate text-sm font-medium animate-in fade-in slide-in-from-bottom-2 duration-500">
-                {article?.headline}
-              </p>
-            </Link>
-          </div>
-        </div>
-        <div className="ml-4 flex shrink-0 items-center gap-3">
-          <button
-            onClick={() => setIsVisible(false)}
-            className="rounded-full p-1 transition-colors hover:bg-primary/10"
-            aria-label="Dismiss breaking news"
-          >
-            <X className="h-4 w-4" />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
+  return <BreakingNewsBannerInner breakingNews={breakingNews} />;
 }

@@ -5,7 +5,7 @@ import { cacheLife } from "next/cache";
 
 export async function getCategories(): Promise<Category[] | null> {
   "use cache";
-  cacheLife("hours");
+  cacheLife("days");
   const categories = await apiFetch<Category[]>(`/categories`);
 
   // Make sure we have at least 1 category.
