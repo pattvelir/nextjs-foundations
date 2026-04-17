@@ -29,7 +29,7 @@ export async function Header() {
           </span>
           <div className="flex items-center gap-4">
             <Suspense fallback={<span>Loading...</span>}>
-              <SubscriptionToggle />
+              <SubscriptionToggle cta={"Subscribe"} />
             </Suspense>
           </div>
         </div>
