@@ -1,10 +1,9 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { ArticleSchema, Article } from "@repo/models/article";
-import { Taxonomy } from "./taxonomy";
+import { Article } from "@repo/models/article";
+import { Taxonomy } from "./ui/taxonomy";
 import { DateString } from "./ui/date-string";
-import { BreakingNewsEmblem } from "./ui/breaking-news-emblem";
 import { ArticleCardSkeleton } from "./skeletons/article-card-skeleton";
+import Image from "next/image";
 
 export function ArticleGrid({
   articles,
@@ -27,13 +26,18 @@ export function ArticleGrid({
             articles?.map((article, index) => (
               <Link href={article.url} key={index} className="group">
                 <article className="bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg transition-shadow">
-                  <div className="aspect-[16/10] overflow-hidden">
-                    <img
-                      src={article.image}
-                      alt={article.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
+                  {article.image && (
+                    <div className="aspect-[16/10] overflow-hidden">
+                      <Image
+                        width={1674}
+                        height={972}
+                        src={article.image}
+                        alt=""
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
+
                   <div className="p-5">
                     {article?.category && (
                       <Taxonomy category={article.category!} />

@@ -1,16 +1,5 @@
 import { getArticleBySlug } from "@/app/lib/article";
-import { getRelatedArticles } from "@/app/lib/related-articles";
-import { ArticleContent } from "@/components/article-content";
-import { ArticleGrid } from "@/components/article-grid";
-import { ArticleGridHeader } from "@/components/article-grid-header";
-import { Taxonomy } from "@/components/taxonomy";
-import { Calendar } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import type { Metadata } from "next";
 import { Suspense } from "react";
-import { ArticleContentSkeleton } from "@/components/skeletons/article-content-skeleton";
 import Article from "@/components/article";
 import { ArticleSkeleton } from "@/components/skeletons/article-skeleton";
 

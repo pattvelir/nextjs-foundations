@@ -87,12 +87,9 @@ export async function unsubscribe(
   );
 
   if (subscriptionStatus != null) {
-    // Delete the cookie.
-    const cookiesList = await cookies();
-
-    cookiesList.delete("subscriptionToken");
     return subscriptionStatus;
   }
+
   return null;
 }
 

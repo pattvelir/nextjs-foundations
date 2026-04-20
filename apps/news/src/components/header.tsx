@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Search, X } from "lucide-react";
 import { ArticleSchema, Article } from "@repo/models/article";
-import { Taxonomy } from "./taxonomy";
+import { Taxonomy } from "./ui/taxonomy";
 import { getBreakingNews } from "@/app/lib/breaking-news";
 import { BreakingNewsBanner } from "./breaking-news-banner";
 import { Button } from "./ui/button";

@@ -11,6 +11,7 @@ export async function GET(req: NextRequest) {
       { status: 400 },
     );
   }
+
   const results = await searchArticles(parsedQueryString.data);
 
   return NextResponse.json(results);

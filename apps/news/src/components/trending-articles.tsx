@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { TrendingUp } from "lucide-react";
 import { Article } from "@repo/models/article";
-import { Taxonomy } from "./taxonomy";
+import { Taxonomy } from "./ui/taxonomy";
 
 export function TrendingArticles({ articles }: { articles: Article[] | null }) {
   return (
@@ -16,7 +16,7 @@ export function TrendingArticles({ articles }: { articles: Article[] | null }) {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {articles?.map((article, index) => (
-            <Link href="#" key={index} className="group">
+            <Link href={article.url} key={index} className="group">
               <article className="flex lg:flex-col gap-4 py-4 border-t border-border hover:border-accent transition-colors">
                 <span className="font-serif text-4xl lg:text-5xl font-bold text-secondary">
                   {index + 1}

@@ -1,10 +1,6 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { ArticleSchema, Article } from "@repo/models/article";
-import { Taxonomy } from "./taxonomy";
+import { Article } from "@repo/models/article";
 import { DateString } from "./ui/date-string";
-import { BreakingNewsEmblem } from "./ui/breaking-news-emblem";
-import { ArticleCardSkeleton } from "./skeletons/article-card-skeleton";
 import Image from "next/image";
 export function Hero({ article }: { article: Article | null }) {
   if (article) {

@@ -1,5 +1,4 @@
-import { Skeleton } from "../ui/skeleton";
-import { ArticleCardSkeleton } from "./article-card-skeleton";
+import { Skeleton } from "./skeleton";
 
 export function ArticleSearchSkeleton() {
   return (

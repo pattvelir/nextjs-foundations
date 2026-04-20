@@ -1,6 +1,4 @@
 import { z } from "zod";
-import { ArticleBaseSchema } from "./article-base";
-import { TaxonomySchema } from "./taxonomy";
 import { ContentBlockSchema } from "./content-block";
 import { AuthorSchema } from "./author";
 export const ArticleSchema = z

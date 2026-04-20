@@ -1,13 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { ArticleSchema, Article } from "@repo/models/article";
-
-import { useState, useEffect } from "react";
-import { X, AlertCircle } from "lucide-react";
-import { BreakingNewsEmblem } from "./ui/breaking-news-emblem";
-import { BreakingNews } from "@repo/models/breaking-news";
 import { Category } from "@repo/models/category";
 
 export function HeaderNavigation({

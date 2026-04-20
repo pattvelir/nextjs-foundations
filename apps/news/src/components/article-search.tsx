@@ -17,7 +17,6 @@ import { X } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import { Category } from "@repo/models/category";
-import { getLatestArticles } from "@/app/lib/latest-articles";
 
 export function ArticleSearch({
   categories,
