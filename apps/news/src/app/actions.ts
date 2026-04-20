@@ -4,13 +4,12 @@ import { apiFetch } from "@/app/lib/api";
 import { cookies } from "next/headers";
 import { SubscriptionStatus } from "@repo/models/subscription-status";
 
-export async function subscribe(): Promise<SubscriptionStatus | null> {
+export async function toggleSubscription(formData: FormData): Promise<void> {
   const cookiesList = await cookies();
 
   // Check to make sure the user isn't already subscribed.
   const subscriptionToken = cookiesList.get("subscriptionToken")?.value;
-  let subscriptionStatus;
-
+  let subscriptionStatus: SubscriptionStatus | null;
   if (subscriptionToken) {
     // If the user is already subscribed, we'll get the subscription status.
     subscriptionStatus = await apiFetch<SubscriptionStatus>(
@@ -20,56 +19,81 @@ export async function subscribe(): Promise<SubscriptionStatus | null> {
     );
 
     // If we didn't find a valid subscription status, delete the existing cookie,
-    // and re-create the subscription.
+    // create and activate the subscription.
     if (!subscriptionStatus) {
       cookiesList.delete("subscriptionToken");
+      subscriptionStatus = await createSubscription();
     } else {
       // If the subscription status is not active, we'll reactivate it.
       if (subscriptionStatus.status !== "active") {
-        subscriptionStatus = await apiFetch<SubscriptionStatus>(
-          `/subscription`,
-          "POST",
-          { "x-subscription-token": subscriptionToken },
-        );
+        await subscribe(subscriptionStatus.token);
+      } else {
+        // If the subscription status is active, we'll unsubscribe.
+        await unsubscribe(subscriptionStatus.token);
       }
     }
+  } else {
+    // If no subscription token cookie exists, we'll create a new subscription
+    // and activate it.
+    await createSubscription();
+  }
+}
+
+export async function createSubscription(): Promise<SubscriptionStatus | null> {
+  const subscriptionStatus = await apiFetch<SubscriptionStatus>(
+    `/subscription/create`,
+    "POST",
+  );
+  if (subscriptionStatus != null) {
+    return subscribe(subscriptionStatus.token);
   }
 
-  // If no subscription token exists, or if it was invalid, we'll create a new subscription.
-  if (!subscriptionStatus) {
-    subscriptionStatus = await apiFetch<SubscriptionStatus>(
-      `/subscription/create`,
-      "POST",
-    );
-  }
+  return null;
+}
 
-  // If the subscription creation failed, we'll return null.
-  if (!subscriptionStatus) {
-    return null;
-  }
-
-  // Automatically activate the subscription.
-  subscriptionStatus = await apiFetch<SubscriptionStatus>(
+export async function subscribe(
+  subscriptionToken: string,
+): Promise<SubscriptionStatus | null> {
+  const subscriptionStatus = await apiFetch<SubscriptionStatus>(
     `/subscription`,
     "POST",
-    { "x-subscription-token": subscriptionStatus.token },
+    {
+      "x-subscription-token": subscriptionToken,
+    },
   );
 
-  // If the activation failed, we'll return null.
-  if (!subscriptionStatus) {
-    return null;
+  if (subscriptionStatus != null) {
+    const cookiesList = await cookies();
+    // Finally, if everything succeeded, we'll set the cookie and return the status.
+    cookiesList.set("subscriptionToken", subscriptionStatus.token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+    });
+    return subscriptionStatus;
   }
+  return null;
+}
 
-  // Finally, if everything succeeded, we'll set the cookie and return the status.
-  cookiesList.set("subscriptionToken", subscriptionStatus.token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 30,
-  });
+export async function unsubscribe(
+  subscriptionToken: string,
+): Promise<SubscriptionStatus | null> {
+  const subscriptionStatus = await apiFetch<SubscriptionStatus>(
+    `/subscription`,
+    "DELETE",
+    { "x-subscription-token": subscriptionToken },
+  );
 
-  return subscriptionStatus;
+  if (subscriptionStatus != null) {
+    // Delete the cookie.
+    const cookiesList = await cookies();
+
+    cookiesList.delete("subscriptionToken");
+    return subscriptionStatus;
+  }
+  return null;
 }
 
 export async function getSubscriptionStatus(): Promise<SubscriptionStatus | null> {
@@ -89,26 +113,6 @@ export async function getSubscriptionStatus(): Promise<SubscriptionStatus | null
   if (!subscriptionStatus) {
     return null;
   }
-
-  return subscriptionStatus;
-}
-
-export async function unsubscribe(
-  subscriptionStatus: SubscriptionStatus,
-): Promise<SubscriptionStatus | null> {
-  const subscriptionToken = subscriptionStatus.token;
-
-  // If we don't have a subscription token, we'll return null.
-  if (!subscriptionToken) {
-    return null;
-  }
-
-  subscriptionStatus = await apiFetch<SubscriptionStatus>(
-    `/subscription`,
-    "DELETE",
-    { "x-subscription-token": subscriptionToken },
-  );
-  console.log("unsubscribe status result:", subscriptionStatus);
 
   return subscriptionStatus;
 }

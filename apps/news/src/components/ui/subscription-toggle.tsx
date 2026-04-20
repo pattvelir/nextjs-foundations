@@ -1,17 +1,12 @@
 "use client";
-import Link from "next/link";
 
-import { cn } from "@/app/lib/utils";
 import { useEffect, useState } from "react";
-import { Button } from "./button";
+import { SubscriptionSubmitButton } from "./subscription-submit-button";
 import { SubscriptionStatus } from "@repo/models/subscription-status";
-import { subscribe } from "@/app/actions";
-import { unsubscribe } from "@/app/actions";
+import { toggleSubscription } from "@/app/actions";
 import { getSubscriptionStatus } from "@/app/actions";
-import { useRouter } from "next/navigation";
 
 export function SubscriptionToggle({ cta = "Subscribe" }: { cta: string }) {
-  const router = useRouter();
   const [subscriptionStatus, setSubscriptionStatus] =
     useState<SubscriptionStatus | null>(null);
 
@@ -27,18 +22,11 @@ export function SubscriptionToggle({ cta = "Subscribe" }: { cta: string }) {
     loadStatus();
   }, []);
 
-  const handleSubscriptionChange = async () => {
-    if (subscriptionStatus != null) {
-      if (subscriptionStatus.status === "active") {
-        setSubscriptionStatus(await unsubscribe(subscriptionStatus));
-      } else if (subscriptionStatus.status === "inactive") {
-        setSubscriptionStatus(await subscribe());
-      }
-    } else {
-      setSubscriptionStatus(await subscribe());
-    }
+  const handleSubmit = async (formData: FormData) => {
+    await toggleSubscription(formData);
 
-    router.refresh();
+    const updatedStatus = await getSubscriptionStatus();
+    setSubscriptionStatus(updatedStatus);
   };
 
   const subscriptionText = isLoading
@@ -50,8 +38,8 @@ export function SubscriptionToggle({ cta = "Subscribe" }: { cta: string }) {
         : "Resubscribe";
 
   return (
-    <Button onClick={handleSubscriptionChange} className="hover:underline">
-      {subscriptionText}
-    </Button>
+    <form action={handleSubmit}>
+      <SubscriptionSubmitButton text={subscriptionText} />
+    </form>
   );
 }
