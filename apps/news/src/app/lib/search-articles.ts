@@ -13,6 +13,10 @@ export async function searchArticles(
   cacheLife("seconds");
 
   const validatedSearch = SearchSchema.parse(search);
+
+  // Force results limit to only 5.
+  validatedSearch.limit = 5;
+
   const articles = await apiFetch<Article[]>(
     `/articles?${articleSearchToQueryString(validatedSearch)}`,
   );

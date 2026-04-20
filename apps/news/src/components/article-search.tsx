@@ -17,11 +17,14 @@ import { X } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import { Category } from "@repo/models/category";
+import { getLatestArticles } from "@/app/lib/latest-articles";
 
 export function ArticleSearch({
   categories,
+  defaultArticles,
 }: {
   categories: Category[] | null;
+  defaultArticles: Article[] | null;
 }) {
   const searchParams = useSearchParams();
   const request = queryStringToArticleSearch(searchParams);
@@ -85,13 +88,22 @@ export function ArticleSearch({
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      handleSearchChange(inputValue, category);
+      const searchValue = inputValue.trim();
+      if (searchValue.length === 0) {
+        handleSearchChange("", category);
+        return;
+      }
+
+      if (searchValue.length > 2) {
+        handleSearchChange(searchValue, category);
+      }
     }, 300);
 
     return () => clearTimeout(timeout);
   }, [inputValue, category]);
 
-  const displayedResults = search || category ? results : [];
+  const displayedResults =
+    search || category ? results : (defaultArticles ?? []);
 
   return (
     <>
@@ -127,6 +139,7 @@ export function ArticleSearch({
                 )}
                 {categories && (
                   <Select
+                    key={category}
                     defaultValue={category}
                     onValueChange={(value) => handleSearchChange(search, value)}
                   >
@@ -161,12 +174,12 @@ export function ArticleSearch({
         />
       ) : isLoading ? (
         <ArticleGrid articles={[]} title={title} loading={true} />
-      ) : (
+      ) : search || category ? (
         <p className="text-center text-muted-foreground mt-8">
-          {search || category
-            ? "No results found. Please try a different search term and/or category."
-            : "Use the search box above to find articles. You can also filter by category if you wish."}
+          No results found. Please try a different search term and/or category.
         </p>
+      ) : (
+        <ArticleGrid articles={defaultArticles} title={title} loading={false} />
       )}
     </>
   );

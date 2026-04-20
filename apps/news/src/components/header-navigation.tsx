@@ -21,6 +21,22 @@ export function HeaderNavigation({
 
   return (
     <>
+      <li key={"home"}>
+        <Link
+          href={"/"}
+          className="block text-sm font-medium uppercase tracking-wider text-foreground hover:text-accent transition-colors py-2"
+        >
+          Home
+        </Link>
+      </li>
+      <li key={"search"}>
+        <Link
+          href={"/search"}
+          className="block text-sm font-medium uppercase tracking-wider text-foreground hover:text-accent transition-colors py-2"
+        >
+          Search
+        </Link>
+      </li>
       {categories.map((category) => (
         <li key={category.slug}>
           <Link

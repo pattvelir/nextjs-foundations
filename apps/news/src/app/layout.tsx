@@ -18,6 +18,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Vercel Daily News",
   description: "24/7 news about Vercel and the web development industry.",
+  openGraph: {
+    title: "Vercel Daily News",
+    description: "24/7 news about Vercel and the web development industry.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
