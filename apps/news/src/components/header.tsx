@@ -15,7 +15,7 @@ export async function Header() {
   const categories = await getCategories();
   return (
     <header>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={""}>
         <BreakingNewsBanner />
       </Suspense>
       <div className="border-b border-border bg-primary text-primary-foreground">

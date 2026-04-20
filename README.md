@@ -6,6 +6,12 @@ This repository contains my implementation of the Vercel Daily News assignment. 
 
 I started the implementation off of the Next.js Foundations repo used during the Next.js Foundations course. I created a new app under /news/. Most code for this implementation is found under /news/src, with the exception of the types/models, which I have placed under /packages/models for future reusability on other apps.
 
+## Caching & Performance
+
+I made use of caching throughout the solution by enabling cacheComponents in next.config.js. In each function that retrieves data from the API, I've made use of "use cache" as well as setting the cache duration through cacheLife(). In the functions section of this readme, I've included my reasoning for each function's cache.
+
+Where possible, I made use of parallel fetching and used Promise.all() to execute multiple functions at once. This can be seen on the homepage and search page as these call several different functions at once. For example, on the homepage getFeaturedArticles, getTrendingArticles and getLatestArticles are all called.
+
 ## Layout
 
 The layout.tsx handles the rendering of any global elements such as the header and footer.
@@ -186,7 +192,7 @@ The following components are related to displaying news.
 	* A component for displaying the trending articles.
 	* Renders a list of provided articles similar to the article grid, but only displays the title (as a link to the article) and category.
 	
-## functions
+## Functions
 
 I created a series of functions in order to retrieve/post/delete data to/from the API, as well as some that perform internal actions. I'll describe these below.
 
@@ -243,7 +249,18 @@ I created a series of functions in order to retrieve/post/delete data to/from th
 * Function for retrieving an array of trending articles. Using **apiFetch**, the /articles/trending endpoint is hit.
 * Trending articles are cached using cacheLife("minutes"), as these can likely change much more frequently than other article lists, but not as frequently as breaking news (seconds).
 
-### Server actions
+### utils.ts (Various functions)
+* A general utility file containing the following functions:
+	* articleSearchToQueryString
+		* Takes a Search object and formats the data into a query string.
+	* queryStringToArticleSearch
+		* The inverse of articleSearchToQueryString. Takes a query string and converts it into a Search object.
+	* getSearchTitle
+		* Adjusts the title on the page to indicate what parameters its searching with. 
+			* For example, if a keyword is present, it will say Search results for {keyword}.
+			* If only a category is present however, it will say Articles in category {category}.
+
+### Server Actions
 
 I originally created an internal API to handle some functionality, such as subscribing and unsubscribing. I then decided to convert these into server actions to follow suit with what was described in the Next.js Foundations course.
 
@@ -261,6 +278,15 @@ I originally created an internal API to handle some functionality, such as subsc
 	* getSubscriptionStatus
 		* Grabs the subscription token from the cookie and attempts to retrieve and return a valid subscription object.
 		
+##
+
+## Styling / Structure
+
+I employed the help of v0 for styling the site. I provided the color scheme and style ideas and v0 generated the css and general structure of the page. I then modified the styling and markup as I needed directly.
+
+## Leftover Files
+
+I reused the repo I initially created while running through the Next.js Foundations course, so there may be some leftover files from that. I've removed the majority of files that aren't related to this assignment but I may have missed one or two; they can be safely ignored.
 
 ## /api/subscribe/route.ts
 

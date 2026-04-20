@@ -17,8 +17,11 @@ export const metadata: Metadata = {
   },
 };
 export default async function SearchPage() {
-  const categories = await getCategories();
-  const defaultArticles = await getLatestArticles(5);
+  const [categories, defaultArticles] = await Promise.all([
+    getCategories(),
+    getLatestArticles(5),
+  ]);
+
   return (
     <div className="min-h-screen flex flex-col">
       <main className="flex-1">

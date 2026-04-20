@@ -18,9 +18,12 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const featuredArticles = await getFeaturedArticles(6);
-  const trendingArticles = await getTrendingArticles(4);
-  const articles = await getLatestArticles(6);
+  const [featuredArticles, trendingArticles, articles] = await Promise.all([
+    getFeaturedArticles(6),
+    getTrendingArticles(4),
+    getLatestArticles(6),
+  ]);
+
   const featuredArticlesWithoutHero =
     featuredArticles?.slice(1, featuredArticles.length) || [];
   return (
