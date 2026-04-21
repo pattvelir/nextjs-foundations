@@ -2,6 +2,9 @@ import { getArticleBySlug } from "@/app/lib/article";
 import { Suspense } from "react";
 import Article from "@/components/article";
 import { ArticleSkeleton } from "@/components/skeletons/article-skeleton";
+import { getTrendingArticles } from "@/app/lib/trending-articles";
+import { TrendingArticles } from "@/components/trending-articles";
+import { ArticleGridHeader } from "@/components/article-grid-header";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -31,10 +34,12 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default function ArticlePage({ params }: Props) {
+export default async function ArticlePage({ params }: Props) {
+  const trendingArticles = await getTrendingArticles(4);
   return (
     <Suspense fallback={<ArticleSkeleton />}>
       <Article params={params} />
+      <TrendingArticles articles={trendingArticles} />
     </Suspense>
   );
 }

@@ -76,7 +76,9 @@ export default async function ArticleInner({ slug }: { slug: string }) {
                     <ArticleContent content={article.content} />
                   </Suspense>
                 </div>
-                <ArticleGridHeader title="Related Articles" />
+                <ArticleGridHeader
+                  title={"Related Articles in " + article.category}
+                />
                 <ArticleGrid articles={relatedArticles} />
               </div>
             </div>
