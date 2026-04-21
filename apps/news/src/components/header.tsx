@@ -1,18 +1,17 @@
-import Link from "next/link";
-import { ArrowRight, Search, X } from "lucide-react";
-import { ArticleSchema, Article } from "@repo/models/article";
-import { Taxonomy } from "./ui/taxonomy";
-import { getBreakingNews } from "@/app/lib/breaking-news";
 import { BreakingNewsBanner } from "./breaking-news-banner";
-import { Button } from "./ui/button";
 import { HeaderMain } from "./header-main";
 import { getCategories } from "@/app/lib/categories";
 import { SubscriptionToggle } from "./ui/subscription-toggle";
 import { Suspense } from "react";
+import { getSubscriptionStatus } from "@/app/actions";
 
 const currentDate = new Date();
 export async function Header() {
-  const categories = await getCategories();
+  const [categories, subscriptionStatus] = await Promise.all([
+    getCategories(),
+    getSubscriptionStatus(),
+  ]);
+
   return (
     <header>
       <Suspense fallback={""}>
@@ -29,7 +28,10 @@ export async function Header() {
           </span>
           <div className="flex items-center gap-4">
             <Suspense fallback={<span>Loading...</span>}>
-              <SubscriptionToggle cta={"Subscribe"} />
+              <SubscriptionToggle
+                status={subscriptionStatus}
+                cta={"Subscribe"}
+              />
             </Suspense>
           </div>
         </div>

@@ -2,7 +2,10 @@
 
 import { apiFetch } from "@/app/lib/api";
 import { cookies } from "next/headers";
-import { SubscriptionStatus } from "@repo/models/subscription-status";
+import {
+  SubscriptionStatus,
+  SubscriptionStatusSchema,
+} from "@repo/models/subscription-status";
 
 export async function toggleSubscription(formData: FormData): Promise<void> {
   const cookiesList = await cookies();
@@ -65,13 +68,27 @@ export async function subscribe(
   if (subscriptionStatus != null) {
     const cookiesList = await cookies();
     // Finally, if everything succeeded, we'll set the cookie and return the status.
-    cookiesList.set("subscriptionToken", subscriptionStatus.token, {
+    const parsedSubscriptionStatus =
+      SubscriptionStatusSchema.parse(subscriptionStatus);
+    cookiesList.set("subscriptionToken", parsedSubscriptionStatus.token, {
       httpOnly: true,
       secure: true,
       sameSite: "lax",
       path: "/",
       maxAge: 60 * 60 * 24 * 30,
     });
+
+    cookiesList.set(
+      "subscriptionTimestamp",
+      parsedSubscriptionStatus.updatedAt.toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+      }),
+    );
     return subscriptionStatus;
   }
   return null;
@@ -87,6 +104,20 @@ export async function unsubscribe(
   );
 
   if (subscriptionStatus != null) {
+    const cookiesList = await cookies();
+    const parsedSubscriptionStatus =
+      SubscriptionStatusSchema.parse(subscriptionStatus);
+    cookiesList.set(
+      "subscriptionTimestamp",
+      parsedSubscriptionStatus.updatedAt.toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+      }),
+    );
     return subscriptionStatus;
   }
 
