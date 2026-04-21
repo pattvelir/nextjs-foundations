@@ -3,15 +3,10 @@ import { HeaderMain } from "./header-main";
 import { getCategories } from "@/app/lib/categories";
 import { SubscriptionToggle } from "./ui/subscription-toggle";
 import { Suspense } from "react";
-import { getSubscriptionStatus } from "@/app/actions";
 
 const currentDate = new Date();
 export async function Header() {
-  const [categories, subscriptionStatus] = await Promise.all([
-    getCategories(),
-    getSubscriptionStatus(),
-  ]);
-
+  const categories = await getCategories();
   return (
     <header>
       <Suspense fallback={""}>
@@ -28,10 +23,7 @@ export async function Header() {
           </span>
           <div className="flex items-center gap-4">
             <Suspense fallback={<span>Loading...</span>}>
-              <SubscriptionToggle
-                status={subscriptionStatus}
-                cta={"Subscribe"}
-              />
+              <SubscriptionToggle cta={"Subscribe"} />
             </Suspense>
           </div>
         </div>

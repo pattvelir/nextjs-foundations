@@ -113,10 +113,7 @@ export async function ArticleContent({
                   className="bg-primary/10 border border-primary/20 rounded-lg p-6 mb-8"
                 >
                   <p className="text-foreground mb-4">{block.text}</p>
-                  <SubscriptionToggle
-                    status={subscriptionStatus}
-                    cta={block.cta}
-                  />
+                  <SubscriptionToggle cta={block.cta} />
                 </div>
               );
             }
