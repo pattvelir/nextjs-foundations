@@ -13,6 +13,9 @@ export async function apiFetch<T>(
   const response = await fetch(`${BASE_URL}${endpointPath}`, {
     method,
     headers: headers,
+    next: {
+      revalidate: 60,
+    },
   });
 
   // If the endpoint returns a 404, we'll return null instead of throwing an error.
