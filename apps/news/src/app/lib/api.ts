@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+
 const BASE_URL = "https://vercel-daily-news-api.vercel.app/api";
 const TOKEN = process.env.NEWS_API_TOKEN!;
 
@@ -22,6 +24,9 @@ export async function apiFetch<T>(
   // This handles expired and not found subscriptions gracefully.
   if (response.status === 404 && endpointPath.startsWith("/subscription")) {
     return null as unknown as T;
+  }
+  if (response.status === 404) {
+    return notFound();
   }
 
   if (!response.ok) {
