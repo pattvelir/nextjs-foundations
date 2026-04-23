@@ -62,7 +62,7 @@ export function ArticleSearch({
 
   useEffect(() => {
     const request = SearchSchema.parse({
-      limit: 10,
+      limit: 5,
       search: search || undefined,
       category: category || undefined,
     });
