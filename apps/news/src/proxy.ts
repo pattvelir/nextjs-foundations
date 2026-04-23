@@ -23,5 +23,5 @@ export function proxy(request: NextRequest) {
 
 // Configure which paths run the proxy
 export const config = {
-  matcher: ["/articles/:path*"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };
