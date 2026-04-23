@@ -24,12 +24,7 @@ export function ArticleGrid({
             ))}
           {!loading &&
             articles?.map((article, index) => (
-              <Link
-                href={article.url}
-                key={index}
-                className="group"
-                prefetch={false}
-              >
+              <Link href={article.url} key={index} className="group">
                 <article className="bg-card rounded-lg overflow-hidden border border-border hover:shadow-lg transition-shadow">
                   {article.image && (
                     <div className="aspect-[16/10] overflow-hidden">
