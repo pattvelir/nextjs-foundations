@@ -3,10 +3,10 @@ import { apiFetch } from "./api";
 import { cacheLife } from "next/cache";
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
-  //"use cache";
+  "use cache";
 
   // Cache the article
-  //cacheLife("hours");
+  cacheLife("hours");
   const article = await apiFetch<Article>(`/articles/${slug}`);
 
   if (!article) return null;
