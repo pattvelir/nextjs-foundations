@@ -9,6 +9,7 @@ export async function apiFetch<T>(
   if (!endpointPath.startsWith("/")) {
     endpointPath = `/${endpointPath}`;
   }
+  console.log("fetching data from api: " + endpointPath);
   headers["x-vercel-protection-bypass"] = TOKEN;
   const response = await fetch(`${BASE_URL}${endpointPath}`, {
     method,
@@ -17,7 +18,7 @@ export async function apiFetch<T>(
       revalidate: 60,
     },
   });
-
+  console.log("response:", response);
   // If the endpoint returns a 404, we'll return null instead of throwing an error.
   // This handles expired and not found subscriptions gracefully.
   if (response.status === 404) {
