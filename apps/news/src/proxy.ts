@@ -5,7 +5,7 @@ export function proxy(request: NextRequest) {
   // we know that the user is not subscribed.
   const subscribedToken = request.cookies.get("subscriptionToken");
   console.log("proxy middleware start");
-
+  console.log("ARTICLE REQUEST HIT:", request.url);
   // Continue to the route with added security headers
   const response = NextResponse.next();
 
