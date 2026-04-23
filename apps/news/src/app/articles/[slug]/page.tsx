@@ -11,8 +11,8 @@ export async function generateStaticParams() {
   const articles = await preRenderArticles();
 
   if (articles) {
-    return articles.map((articles) => ({
-      slug: articles.slug,
+    return articles.map((article) => ({
+      slug: article.slug,
     }));
   }
   return [];
