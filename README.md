@@ -2,6 +2,10 @@
 
 This repository contains my implementation of the Vercel Daily News assignment. Below are some details on the approach I took for each page/component.
 
+## Build & Run
+
+This solution can be run by running pnpm install and pnpm dev from the repo root. The environment variables are defined in .env.example. 
+
 ## General
 
 I started the implementation off of the Next.js Foundations repo used during the Next.js Foundations course. I created a new app under /news/. Most code for this implementation is found under /news/src, with the exception of the types/models, which I have placed under /packages/models for future reusability on other apps.
@@ -278,7 +282,11 @@ I originally created an internal API to handle some functionality, such as subsc
 	* getSubscriptionStatus
 		* Grabs the subscription token from the cookie and attempts to retrieve and return a valid subscription object.
 		
-##
+## Proxy
+
+For proxy.ts, I added a small check for the subscription cookie, which if found will add a response header called x-has-subscription-token. This was done as a quick check to confirm if a user was not subscribed without having to hit the API endpoint.
+
+I did not end up using this header in my solution as I went with a different approach for handling subscriptions but wanted to leave this in here as a proof of concept. Additional some security headers are added in via the proxy as described in the foundations course.
 
 ## Styling / Structure
 
