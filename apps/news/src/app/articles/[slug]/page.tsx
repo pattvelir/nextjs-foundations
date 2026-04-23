@@ -25,27 +25,34 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   console.log("slug:", slug);
+  try {
+    const article = await getArticleBySlug(slug);
 
-  const article = await getArticleBySlug(slug);
-  if (!article) {
-    return {
-      title: "Article Not Found",
-      description: "This article could not be found.",
-    };
+    if (article != null) {
+      return {
+        title: article.title,
+        description: article.excerpt ?? article.title,
+        openGraph: {
+          title: article.title,
+          description: article.excerpt ?? article.title,
+          images: article.image ? [article.image] : [],
+          type: "article",
+          publishedTime: article.publishedAt.toISOString(),
+          authors: [article.author.name],
+        },
+      };
+    }
+  } catch (err: unknown) {
+    console.log("error:", err);
+    if (err instanceof Error && err.message === "NOT_FOUND") {
+      return {
+        title: "Article Not Found",
+        description: "This article could not be found.",
+      };
+    }
+
+    throw err;
   }
-
-  return {
-    title: article.title,
-    description: article.excerpt ?? article.title,
-    openGraph: {
-      title: article.title,
-      description: article.excerpt ?? article.title,
-      images: article.image ? [article.image] : [],
-      type: "article",
-      publishedTime: article.publishedAt.toISOString(),
-      authors: [article.author.name],
-    },
-  };
 }
 
 export default async function ArticlePage({ params }: Props) {
