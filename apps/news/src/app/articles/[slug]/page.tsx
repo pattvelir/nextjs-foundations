@@ -6,17 +6,17 @@ import { getTrendingArticles } from "@/app/lib/trending-articles";
 import { TrendingArticles } from "@/components/trending-articles";
 import { preRenderArticles } from "@/app/lib/prerender-articles";
 
-export async function generateStaticParams() {
-  // Prerender articles based on the above search parameters.
-  const articles = await preRenderArticles();
+// export async function generateStaticParams() {
+//   // Prerender articles based on the above search parameters.
+//   const articles = await preRenderArticles();
 
-  if (articles) {
-    return articles.map((article) => ({
-      slug: article.slug,
-    }));
-  }
-  return [];
-}
+//   if (articles) {
+//     return articles.map((article) => ({
+//       slug: article.slug,
+//     }));
+//   }
+//   return [];
+// }
 
 type Props = {
   params: Promise<{ slug: string }>;
