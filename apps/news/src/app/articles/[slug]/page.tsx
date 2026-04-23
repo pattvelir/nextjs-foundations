@@ -6,12 +6,13 @@ import { getTrendingArticles } from "@/app/lib/trending-articles";
 import { TrendingArticles } from "@/components/trending-articles";
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata({ params }: Props) {
-  const { slug } = params;
+  const { slug } = await params;
   console.log("slug:", slug);
+
   const article = await getArticleBySlug(slug);
   if (!article) {
     return {
