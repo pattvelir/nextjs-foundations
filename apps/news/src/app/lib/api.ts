@@ -20,7 +20,7 @@ export async function apiFetch<T>(
 
   // If the endpoint returns a 404, we'll return null instead of throwing an error.
   // This handles expired and not found subscriptions gracefully.
-  if (response.status === 404) {
+  if (response.status === 404 && endpointPath.startsWith("/subscription")) {
     return null as unknown as T;
   }
 
