@@ -20,7 +20,7 @@
       "persistent": true
     },
     "dev": {
-      "cache": false,
+      "cache": true,
       "persistent": true
     }
   }

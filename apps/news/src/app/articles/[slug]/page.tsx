@@ -4,7 +4,6 @@ import Article from "@/components/article";
 import { ArticleSkeleton } from "@/components/skeletons/article-skeleton";
 import { getTrendingArticles } from "@/app/lib/trending-articles";
 import { TrendingArticles } from "@/components/trending-articles";
-import { ArticleGridHeader } from "@/components/article-grid-header";
 
 type Props = {
   params: Promise<{ slug: string }>;
