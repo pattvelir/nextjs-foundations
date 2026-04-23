@@ -15,7 +15,7 @@ export async function generateStaticParams() {
       slug: articles.slug,
     }));
   }
-  return null;
+  return [];
 }
 
 type Props = {
