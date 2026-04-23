@@ -34,12 +34,12 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function ArticlePage({ params }: Props) {
-  const trendingArticles = await getTrendingArticles(4);
+export default function ArticlePage({ params }: Props) {
+  // const trendingArticles = await getTrendingArticles(4);
   return (
     <Suspense fallback={<ArticleSkeleton />}>
       <Article params={params} />
-      <TrendingArticles articles={trendingArticles} />
+      {/* <TrendingArticles articles={trendingArticles} /> */}
     </Suspense>
   );
 }
