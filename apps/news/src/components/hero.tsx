@@ -14,6 +14,7 @@ export function Hero({ article }: { article: Article | null }) {
                 height={872}
                 src={article.image}
                 alt={article.title}
+                loading="eager"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             )}

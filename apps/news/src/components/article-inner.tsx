@@ -65,6 +65,7 @@ export default async function ArticleInner({ slug }: { slug: string }) {
                         <Image
                           width={1674}
                           height={972}
+                          loading="eager"
                           src={article.image}
                           alt=""
                           className="w-full h-full object-cover"

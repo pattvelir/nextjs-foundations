@@ -7,11 +7,11 @@ import { TrendingArticles } from "@/components/trending-articles";
 import { ArticleGridHeader } from "@/components/article-grid-header";
 
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 };
 
 export async function generateMetadata({ params }: Props) {
-  const { slug } = await params;
+  const { slug } = params;
   const article = await getArticleBySlug(slug);
   if (!article) {
     return {
