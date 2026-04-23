@@ -4,6 +4,26 @@ import Article from "@/components/article";
 import { ArticleSkeleton } from "@/components/skeletons/article-skeleton";
 import { getTrendingArticles } from "@/app/lib/trending-articles";
 import { TrendingArticles } from "@/components/trending-articles";
+import { searchArticles } from "@/app/lib/search-articles";
+import { queryStringToArticleSearch } from "@/app/lib/utils";
+import { SearchSchema } from "@repo/models/requests/search";
+
+export async function generateStaticParams() {
+  const request = SearchSchema.parse({
+    limit: 20,
+    featured: "true",
+  });
+
+  // Prerender articles based on the above search parameters.
+  const posts = await searchArticles(request);
+
+  if (posts) {
+    return posts.map((post) => ({
+      slug: post.slug,
+    }));
+  }
+  return null;
+}
 
 type Props = {
   params: Promise<{ slug: string }>;
