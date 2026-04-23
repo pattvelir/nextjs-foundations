@@ -7,11 +7,11 @@ import { TrendingArticles } from "@/components/trending-articles";
 import { ArticleGridHeader } from "@/components/article-grid-header";
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export async function generateMetadata({ params }: Props) {
-  const { slug } = params;
+  const { slug } = await params;
   const article = await getArticleBySlug(slug);
   if (!article) {
     return {
@@ -34,12 +34,12 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default function ArticlePage({ params }: Props) {
-  // const trendingArticles = await getTrendingArticles(4);
+export default async function ArticlePage({ params }: Props) {
+  const trendingArticles = await getTrendingArticles(4);
   return (
     <Suspense fallback={<ArticleSkeleton />}>
       <Article params={params} />
-      {/* <TrendingArticles articles={trendingArticles} /> */}
+      <TrendingArticles articles={trendingArticles} />
     </Suspense>
   );
 }
