@@ -10,11 +10,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { ArticleContentSkeleton } from "@/components/skeletons/article-content-skeleton";
+import { Article } from "@repo/models/article";
+import { SubscriptionStatus } from "@repo/models/subscription-status";
+import { getSubscriptionStatus } from "@/app/actions";
 
 export default async function ArticleInner({ slug }: { slug: string }) {
   try {
+    const subscriptionStatus = await getSubscriptionStatus();
     const article = await getArticleBySlug(slug);
-
     if (article) {
       const relatedArticles = await getRelatedArticles(
         article.category ?? "",
@@ -77,7 +80,10 @@ export default async function ArticleInner({ slug }: { slug: string }) {
                         </figure>
                       )}
                       <Suspense fallback={<ArticleContentSkeleton />}>
-                        <ArticleContent content={article.content} />
+                        <ArticleContent
+                          content={article.content}
+                          subscriptionStatus={subscriptionStatus}
+                        />
                       </Suspense>
                     </div>
                     <ArticleGridHeader

@@ -6,6 +6,7 @@ import {
   SubscriptionStatus,
   SubscriptionStatusSchema,
 } from "@repo/models/subscription-status";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 export async function toggleSubscription(formData: FormData): Promise<void> {
   const cookiesList = await cookies();
@@ -89,6 +90,7 @@ export async function subscribe(
         second: "2-digit",
       }),
     );
+    revalidateTag("articles", "max");
     return subscriptionStatus;
   }
   return null;
@@ -118,9 +120,9 @@ export async function unsubscribe(
         second: "2-digit",
       }),
     );
+    revalidateTag("articles", "max");
     return subscriptionStatus;
   }
-
   return null;
 }
 

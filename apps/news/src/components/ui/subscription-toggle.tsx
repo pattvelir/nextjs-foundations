@@ -26,7 +26,7 @@ export function SubscriptionToggle({ cta = "Subscribe" }: { cta: string }) {
 
     const updatedStatus = await getSubscriptionStatus();
     setSubscriptionStatus(updatedStatus);
-    // router.refresh();
+    router.refresh();
   };
 
   const subscriptionText = isLoading

@@ -1,14 +1,16 @@
 import { ContentBlock } from "@repo/models/content-block";
 import Image from "next/image";
-import { getSubscriptionStatus } from "@/app/actions";
 import { SubscriptionToggle } from "./ui/subscription-toggle";
+import { cookies } from "next/headers";
+import { SubscriptionStatus } from "@repo/models/subscription-status";
 
 export async function ArticleContent({
   content,
+  subscriptionStatus,
 }: {
   content: ContentBlock[] | null;
+  subscriptionStatus: SubscriptionStatus | null;
 }) {
-  const subscriptionStatus = await getSubscriptionStatus();
   // Check subscription status.
   if (subscriptionStatus?.status !== "active") {
     const paywallBlock: ContentBlock = {
@@ -29,7 +31,7 @@ export async function ArticleContent({
 
   return (
     <>
-      {content?.length && (
+      {content && content?.length > 0 && (
         <>
           {content.map((block, index) => {
             if (block.type === "heading") {
