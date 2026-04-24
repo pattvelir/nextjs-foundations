@@ -1,8 +1,5 @@
 import { apiFetch } from "@/app/lib/api";
-import {
-  SubscriptionStatus,
-  SubscriptionStatusSchema,
-} from "@repo/models/subscription-status";
+import { SubscriptionStatus } from "@repo/models/subscription-status";
 import { cookies } from "next/headers";
 
 export async function POST() {

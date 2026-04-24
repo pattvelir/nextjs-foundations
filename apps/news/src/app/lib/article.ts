@@ -15,12 +15,11 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     cacheLife("articles");
 
     return ArticleSchema.parse(article);
-  } catch (err: unknown) {
-    console.log("error:", err);
-    if (err instanceof Error && err.message === "NOT_FOUND") {
+  } catch (error: unknown) {
+    if (error instanceof Error && error.message === "NOT_FOUND") {
       return null;
     }
 
-    throw err;
+    throw error;
   }
 }

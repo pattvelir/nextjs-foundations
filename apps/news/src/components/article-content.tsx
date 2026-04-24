@@ -1,7 +1,6 @@
 import { ContentBlock } from "@repo/models/content-block";
 import Image from "next/image";
 import { SubscriptionToggle } from "./ui/subscription-toggle";
-import { cookies } from "next/headers";
 import { SubscriptionStatus } from "@repo/models/subscription-status";
 
 export async function ArticleContent({
