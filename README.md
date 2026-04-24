@@ -211,10 +211,11 @@ I created a series of functions in order to retrieve/post/delete data to/from th
 ### article.ts (getArticleBySlug function)
 
 * Function for retrieving a specific article by the slug. A slug is passed through as the parameter, which is then concatenated to the endpoint path (/articles/) and passed to the **apiFetch** function to retrieve the article data from the API.
-* Article is cached using "use cache"/cacheLife("hours") as presumably individual articles don't change all that frequently.
+* Article is cached using "use cache"/cacheLife("articles") which is a custom defined cacheLife I created in next.config.js. The articles cache life is set to an hour as presumably individual articles don't change all that frequently.
 * Additionally, a request to **getSubscriptionStatusServer** is made to check to see if the user is subscribed.
 	* If the user is subscribed, the article's content array is left alone and is returned with the rest of the article data as is.
 	* If the user is not subscribed, or has unsubscribed, the content array is replaced with a single paywall content block, informing the user that they can subscribe to continue reading the article.
+	* When a user's subscription status changes, the articles cache is revalidated.
 	
 ### breaking-news.ts (getBreakingNews function)
 * Function for getting an article from the breaking news endpoint. Using **apiFetch**, the /breaking-news endpoint is hit.
